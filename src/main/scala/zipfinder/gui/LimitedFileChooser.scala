@@ -9,19 +9,13 @@ import javax.swing.JPanel
 import FileChooser._
 import java.io._
 
-trait ComponentWrapper extends Component
 
 class LimitedFileChooser extends swing.Component {
-	var fileChooser:FileChooser = _
-	override lazy val peer = setPeer
-
-	def setPeer = {
-	  fileChooser = new FileChooser
-	  fileChooser.peer
-	}
-
-	fileChooser.controlButtonsAreShown = false
-	fileChooser.fileHidingEnabled = false
+	lazy val fileChooser:FileChooser = new FileChooser{
+		controlButtonsAreShown = false
+		fileHidingEnabled = false
+ 	}
+	override lazy val peer = fileChooser.peer
 
   	def customize {
 		removeExcessButtons(fileChooser.peer, fileChooser.peer.getComponents)
@@ -34,6 +28,16 @@ class LimitedFileChooser extends swing.Component {
   def selectedFile_=(file: File) { peer.setSelectedFile(file) }
 
 	private def removeExcessButtons(parent:Container, components:Array[Component]) {
+//	  (true /: components){(first, component) => if (component.isInstanceOf[AbstractButton]) {
+//				if (first) {
+//					false
+//				} else {
+//					val button = component.asInstanceOf[AbstractButton]
+//					parent remove button
+//                    false
+//				}
+//                
+//	  } else { first }}
 		var first = true
 		for (component <- components) {
 			if (component.isInstanceOf[AbstractButton]) {
