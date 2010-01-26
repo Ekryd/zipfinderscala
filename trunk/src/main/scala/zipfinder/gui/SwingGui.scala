@@ -99,9 +99,12 @@ class SwingGui(recentDirectories:Array[Object], recentStringsToFind:Array[String
 //          TODO directoryComboBox.makeEditable()
 	      layout(directoryComboBox) = new Constraints(
 	        0, 0, 1, 1, 0.0, 0.0, Anchor.CENTER.id,	Fill.Horizontal.id, insets, 0, 0)
-	      val directoryTree = new LimitedFileChooser
-	      directoryTree.customize
-	      directoryTree.fileSelectionMode = FileChooser.SelectionMode.DirectoriesOnly
+	      val directoryTree = new LimitedFileChooser{
+	    	  fileSelectionMode = FileChooser.SelectionMode.DirectoriesOnly
+	    	  customize
+       }
+	      //directoryTree.customize
+	      //directoryTree.fileSelectionMode_=( FileChooser.SelectionMode.DirectoriesOnly)
 		  if (directoryComboBox.selection != null)
 			directoryTree.selectedFile = new File(directoryComboBox.selection.toString)
           layout(directoryTree) = new Constraints(
@@ -111,12 +114,13 @@ class SwingGui(recentDirectories:Array[Object], recentStringsToFind:Array[String
            val textToFindField = new RecentStringsTextField(recentStringsToFind) {
              text = ""
            }
-        }
+        }//
 		// frame
 		frame = new Frame {
 		  title = "ZipFinder"
-		  val splitPanel = new SplitPane(Orientation.Vertical, upperPanel, lowerPanel)
-          splitPanel.resizeWeight = 1.0
+		  val splitPanel = new SplitPane(Orientation.Vertical, upperPanel, lowerPanel) {
+		    resizeWeight = 1.0
+		  }
 //          splitPanel.requestFocus = false
 		  contents = splitPanel
 		}
