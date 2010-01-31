@@ -19,9 +19,9 @@ class SwingController extends StatusLogger with SearchButtonListener {
  	def getSwingGui = {
 		val recentDirectories = ZipFinderPreferences getRecentDirectories
 		val recentStringsToFind = ZipFinderPreferences getRecentStringsToFind
-		val swingGui = new SwingGui(recentDirectories.toArray(new Array[Object](recentDirectories.size)), recentStringsToFind
-				.toArray(new Array[String](recentStringsToFind.size)))
-		swingGui.setSearchButtonListener(this)
+		val swingGui = new SwingGui(recentDirectories.toArray(new Array[String](recentDirectories.size)), recentStringsToFind
+				.toArray(new Array[String](recentStringsToFind.size)),this)
+//		swingGui.setSearchButtonListener(this)
 		swingGui
  	}
 
