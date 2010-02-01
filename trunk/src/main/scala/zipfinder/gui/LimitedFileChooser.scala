@@ -30,16 +30,17 @@ class LimitedFileChooser extends swing.Component with Publisher {
   def selectedFile_=(file: File) { peer.setSelectedFile(file) }
 
   object AContainer {
-	  def unapply(comp: Component) = {
-	    if (comp.isInstanceOf[Container]) {
-	      val cont = comp.asInstanceOf[Container]
-	      Some(cont, List.fromArray(cont.getComponents))
-	    } else None
-	  }
+	  def unapply(comp: Component) = comp match {
+	    case cont: Container => Some(cont, List.fromArray(cont.getComponents))
+	    case _ => None
+	 } 
   }
 
   object AButton {
-	  def unapply(comp: Component) = if (comp.isInstanceOf[AbstractButton]) Some(comp.asInstanceOf[AbstractButton]) else None
+	  def unapply(comp: Component) = comp match {
+	    case button: AbstractButton => Some(button) 
+	    case _ => None
+     }
   }
 
   
