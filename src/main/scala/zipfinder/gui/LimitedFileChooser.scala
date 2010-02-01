@@ -29,12 +29,28 @@ class LimitedFileChooser extends swing.Component with Publisher {
   def selectedFile: File = peer.getSelectedFile
   def selectedFile_=(file: File) { peer.setSelectedFile(file) }
 
+  object AContainer {
+	  def unapply(comp: Component) = {
+	    if (comp.isInstanceOf[Container]) {
+	      val cont = comp.asInstanceOf[Container]
+	      Some(cont, List.fromArray(cont.getComponents))
+	    } else None
+	  }
+  }
+
+  object AButton {
+	  def unapply(comp: Component) = if (comp.isInstanceOf[AbstractButton]) Some(comp.asInstanceOf[AbstractButton]) else None
+  }
+
+  
   private def getAllButtons(parent:Container, components:List[Component]):List[(AbstractButton, Container)] = {
     components match {
       case List() => List[(AbstractButton, Container)]()
-      case comp :: rest if comp.isInstanceOf[AbstractButton] => (comp.asInstanceOf[AbstractButton], parent) :: getAllButtons(parent, rest)
-      case comp :: rest if comp.isInstanceOf[Container] => getAllButtons(comp.asInstanceOf[Container], List.fromArray(comp.asInstanceOf[Container].getComponents)) ::: getAllButtons(parent, rest)
-      case comp :: rest => getAllButtons(parent, rest)
+//      case comp :: rest if comp.isInstanceOf[AbstractButton] => (comp.asInstanceOf[AbstractButton], parent) :: getAllButtons(parent, rest)
+//      case comp :: rest if comp.isInstanceOf[Container] => getAllButtons(comp.asInstanceOf[Container], List.fromArray(comp.asInstanceOf[Container].getComponents)) ::: getAllButtons(parent, rest)
+      case AButton(button)         :: tail => (button, parent) :: getAllButtons(parent, tail)
+      case AContainer(cont, comps) :: tail => getAllButtons(cont, comps) ::: getAllButtons(parent, tail)
+      case head                    :: tail => getAllButtons(parent, tail)
     }
   }
 
@@ -43,7 +59,7 @@ class LimitedFileChooser extends swing.Component with Publisher {
       (true /: buttons)((first, pair) => {
         if (!first) {
           pair._2 remove pair._1
-//          println("remove" + pair._1.getToolTipText)
+          println("remove" + pair._1.getToolTipText)
         }
         false
       })
