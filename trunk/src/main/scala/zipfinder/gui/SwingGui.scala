@@ -31,7 +31,6 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 	}
 	private val textToFindField = new RecentStringsTextField(recentStringsToFind) { text = "" }
     private val console = new TextArea("") {
-
       rows = TEXT_ROWS
     }
     private val searchButton = new Button(SEARCH_LABEL)
