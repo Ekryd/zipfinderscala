@@ -17,59 +17,40 @@ import swing.event._
 import GridBagPanel._
 
 class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String], searchButtonListener:SearchButtonListener) {
+  // Specalare för att det inte finns någon standard för PropertyChangeListener i Scala
+  def PropertyChangeListener(f: PropertyChangeEvent => Unit) = new PropertyChangeListener {
+    def propertyChange(e: PropertyChangeEvent) { f(e) }
+  }
+
 	private val TEXT_ROWS = 10
 	private val INSET = 5
 	private val MAX_LINES = 500
 	private val SEARCH_LABEL = "Search"
-	private val insets = new Insets(INSET, INSET, INSET, INSET)
-	private var frame:Frame = _
+	// I stället för att ha frame som en var
+	private var showFrameFunction:Unit = _
 	private val directoryComboBox = new ComboBox(recentDirectories) {
 	  // Specialare för att sätta editable
 	  peer.setEditable(true)
 	  // Specialare för att komma åt värde
       def getOldValue:String = peer.getEditor.getItem.toString
+      // Specialare för att få scala events
+      peer.addActionListener(Swing.ActionListener { e => publish(ValueChanged(this))} )
 	}
 	private val textToFindField = new RecentStringsTextField(recentStringsToFind) { text = "" }
     private val console = new TextArea("") {
       rows = TEXT_ROWS
     }
     private val searchButton = new Button(SEARCH_LABEL)
-	private val directoryTree = new LimitedFileChooser{
-	  fileSelectionMode = FileChooser.SelectionMode.DirectoriesOnly
-	  customize
-    }
-
 
 	{
 		// Set Look & Feel
 		try {
-			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel")
+//			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel")
 		} catch {
 		  case e:Exception => e.printStackTrace
 		}
 	}
 
- 	def addListeners {
-		directoryTree.peer.addPropertyChangeListener(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY,
-				new PropertyChangeListener {
-					 def propertyChange(evt:PropertyChangeEvent) {
-					   println("changed")
-					   val selectedItem = directoryComboBox.getOldValue
-						val oldValue = if (selectedItem == null) "" else selectedItem.toString
-						if (oldValue != directoryTree.selectedFile.toString) {
-							directoryComboBox.item = directoryTree.selectedFile.toString
-						}
-					}
-				})
-		directoryComboBox.peer.addActionListener(new ActionListener {
-			 def actionPerformed(e:ActionEvent) {
-				val file = new File(directoryComboBox.item)
-				if (file.canRead) {
-					directoryTree.selectedFile = file
-				}
-			}
-		})
-	}
 	def addToConsole(text:String) {
 		SwingUtilities.invokeLater(new Runnable {
 			def run {
@@ -88,6 +69,15 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 
 
 	def createComponents {
+		val insets = new Insets(INSET, INSET, INSET, INSET)
+		val directoryTree = new LimitedFileChooser{
+			fileSelectionMode = FileChooser.SelectionMode.DirectoriesOnly
+			customize
+			// Specialare för att få scala events
+			peer.addPropertyChangeListener(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY,
+					PropertyChangeListener { e => publish(SelectionChanged(this))})
+		}
+
 	    val upperPanel = new GridBagPanel {
 	      peer.getLayout.asInstanceOf[GridBagLayout].columnWidths =  Array(INSET, INSET)
 	      peer.getLayout.asInstanceOf[GridBagLayout].rowHeights =  Array(INSET, INSET)
@@ -113,12 +103,11 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
           layout(consoleScroll) = new Constraints(
            	 0, 1, 2, 1, 0.0, 0.0, Anchor.CENTER.id, Fill.Both.id, insets, 0, 0)
         }
-		frame = new Frame {
+		val frame = new Frame {
 		  title = "ZipFinderScala"
 		  val splitPanel = new SplitPane(Orientation.Horizontal, upperPanel, lowerPanel) { resizeWeight = 1.0 }
-//          splitPanel.requestFocus = false
 		  contents = splitPanel
-		  listenTo(searchButton)
+		  listenTo(searchButton, directoryComboBox, directoryTree)
 		  reactions += {
 		    case ButtonClicked(b) =>
 		      if (searchButton.text == SEARCH_LABEL) {
@@ -126,11 +115,21 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 				} else {
 					searchButtonListener.performStopSearch
 				}
-
+		    case ValueChanged(e) =>
+				val file = new File(directoryComboBox.item)
+				if (file.canRead) {
+					directoryTree.selectedFile = file
+				}
+		    case SelectionChanged(e) =>
+				val selectedItem = directoryComboBox.getOldValue
+				val oldValue = if (selectedItem == null) "" else selectedItem.toString
+				if (oldValue != directoryTree.selectedFile.toString) {
+					directoryComboBox.item = directoryTree.selectedFile.toString
+				}
 		  }
 		}
+		showFrameFunction = { frame.visible = true }
 		frame.pack
-		frame.peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
 	}
 
 	def getDirectory = {
@@ -151,8 +150,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 	}
 
 	def showFrame {
-//		frame.setLocationRelativeTo(null)
-		frame.visible = true
+		showFrameFunction
 	}
 
 	def showWorking {

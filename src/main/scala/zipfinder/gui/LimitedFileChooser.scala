@@ -29,21 +29,23 @@ class LimitedFileChooser extends swing.Component with Publisher {
   def selectedFile: File = peer.getSelectedFile
   def selectedFile_=(file: File) { peer.setSelectedFile(file) }
 
+  // Matchar en container
   object AContainer {
 	  def unapply(comp: Component) = comp match {
 	    case cont: Container => Some(cont, List.fromArray(cont.getComponents))
 	    case _ => None
-	 } 
+	 }
   }
 
+  // Matchar en knapp
   object AButton {
 	  def unapply(comp: Component) = comp match {
-	    case button: AbstractButton => Some(button) 
+	    case button: AbstractButton => Some(button)
 	    case _ => None
      }
   }
 
-  
+
   private def getAllButtons(parent:Container, components:List[Component]):List[(AbstractButton, Container)] = {
     components match {
       case List() => List[(AbstractButton, Container)]()
@@ -60,7 +62,7 @@ class LimitedFileChooser extends swing.Component with Publisher {
       (true /: buttons)((first, pair) => {
         if (!first) {
           pair._2 remove pair._1
-          println("remove" + pair._1.getToolTipText)
+//          println("remove" + pair._1.getToolTipText)
         }
         false
       })
