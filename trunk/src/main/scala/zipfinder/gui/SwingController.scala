@@ -73,7 +73,6 @@ class SwingController extends StatusLogger with SearchButtonListener {
 		SwingUtilities.invokeLater(new Runnable {
 			def run {
 				swingGui.createComponents
-				swingGui.addListeners
 				swingGui.showFrame
 			}
 		})
