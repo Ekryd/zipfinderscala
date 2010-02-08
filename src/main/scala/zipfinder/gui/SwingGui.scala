@@ -107,6 +107,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 		  title = "ZipFinderScala"
 		  val splitPanel = new SplitPane(Orientation.Horizontal, upperPanel, lowerPanel) { resizeWeight = 1.0 }
 		  contents = splitPanel
+		  peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		  listenTo(searchButton, directoryComboBox, directoryTree)
 		  reactions += {
 		    case ButtonClicked(b) =>
@@ -126,7 +127,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 				if (oldValue != directoryTree.selectedFile.toString) {
 					directoryComboBox.item = directoryTree.selectedFile.toString
 				}
-		  }
+		  }		  
 		}
 		showFrameFunction = { frame.visible = true }
 		frame.pack
