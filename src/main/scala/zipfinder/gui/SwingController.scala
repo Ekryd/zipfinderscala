@@ -17,7 +17,11 @@ class SwingController extends StatusLogger with SearchButtonListener {
 	private var fileFinder:FileFinder = null
 
  	def getSwingGui = {
-		val recentDirectories = ZipFinderPreferences getRecentDirectories
+		var recentDirectories = ZipFinderPreferences.getRecentDirectories
+    if (recentDirectories.size == 0) {
+      recentDirectories = new LinkedList[String]() { add ("/tmp2") }
+    }
+
 		val recentStringsToFind = ZipFinderPreferences getRecentStringsToFind
 		val swingGui = new SwingGui(recentDirectories.toArray(new Array[String](recentDirectories.size)), recentStringsToFind
 				.toArray(new Array[String](recentStringsToFind.size)),this)
