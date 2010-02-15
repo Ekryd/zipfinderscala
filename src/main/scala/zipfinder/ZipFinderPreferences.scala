@@ -1,8 +1,5 @@
 package zipfinder
 
-import java.util.Arrays
-import java.util.Collection
-import java.util.LinkedList
 import java.util.prefs.BackingStoreException
 import java.util.prefs.Preferences
 
@@ -49,40 +46,18 @@ object ZipFinderPreferences {
 
 	def getRecentStringsToFind = getValueArray(STRINGS_TO_FIND_KEY)
 
-	private def createNewString(newArray:Collection[String]) = {
-		val newString = new StringBuffer
-		var first = true
-		for (str <- newArray.toArray) {
-			if (first) {
-				first = false
-			} else {
-				newString.append(SEPARATOR)
-			}
-			newString.append(str)
-		}
-		newString.toString
+	private def createNewString(newArray:Array[String]) = {
+	  newArray mkString SEPARATOR
 	}
 
-	private def createNewStringArray(str:String, oldCollection:Collection[String]) = {
-		val returnValue = new LinkedList[String](oldCollection)
-		if (returnValue.contains(str)) {
-			returnValue.remove(str)
-		}
-		returnValue.addFirst(str)
-		while (returnValue.size > NR_OF_ENTRIES) {
-			returnValue.removeLast
-		}
-		returnValue
+	private def createNewStringArray(str:String, oldCollection:Array[String]):Array[String] = {
+	  val list = (List(str) /: oldCollection) { (list, elem) => if (elem == str) list else elem :: list }
+	  list.reverse.take(NR_OF_ENTRIES).toArray
 	}
 
-	private def getValueArray(key:String) = {
+	private def getValueArray(key:String):Array[String] = {
 		val value = preferences.get(key, "")
-		val valueArray = value.split(SEPARATOR_REGEX)
-		val returnValue = new LinkedList[String]
-		if (valueArray.length != 1 || !valueArray(0).isEmpty) {
-			returnValue.addAll(Arrays.asList(valueArray:_*))
-		}
-		returnValue
+		if (isEmptyString(value)) Array() else value.split(SEPARATOR_REGEX)
 	}
 
 	private def isEmptyString(str:String) = str == null || str.isEmpty
