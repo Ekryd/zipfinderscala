@@ -152,10 +152,10 @@ public class ZipFinderPreferencesTest extends TestCase {
 		// expect
 		recorder.expect(preferencesMock).get("Directories", "");
 		// replay
-		final LinkedList<String> recentDirectories = zipFinderPreferences.getRecentDirectories();
+		final String[] recentDirectories = zipFinderPreferences.getRecentDirectories();
 		recorder.check();
 		// assert
-		assertEquals(0, recentDirectories.size());
+		assertEquals(0, recentDirectories.length);
 	}
 
 	public final void testGetRecentDirectoriesManyEntry() {
@@ -164,13 +164,13 @@ public class ZipFinderPreferencesTest extends TestCase {
 		// expect
 		recorder.expect(preferencesMock).get("Directories", "");
 		// replay
-		final LinkedList<String> recentDirectories = zipFinderPreferences.getRecentDirectories();
+		final String[] recentDirectories = zipFinderPreferences.getRecentDirectories();
 		recorder.check();
 		// assert
-		assertEquals(3, recentDirectories.size());
-		assertEquals("pelle", recentDirectories.get(0));
-		assertEquals("C:\\Documents and Settings\\Bjorn\\.saverbeans", recentDirectories.get(1));
-		assertEquals("stina", recentDirectories.get(2));
+		assertEquals(3, recentDirectories.length);
+		assertEquals("pelle", recentDirectories[0]);
+		assertEquals("C:\\Documents and Settings\\Bjorn\\.saverbeans", recentDirectories[1]);
+		assertEquals("stina", recentDirectories[2]);
 	}
 
 	public final void testGetRecentDirectoriesOneEntry() {
@@ -179,11 +179,11 @@ public class ZipFinderPreferencesTest extends TestCase {
 		// expect
 		recorder.expect(preferencesMock).get("Directories", "");
 		// replay
-		final LinkedList<String> recentDirectories = zipFinderPreferences.getRecentDirectories();
+		final String[] recentDirectories = zipFinderPreferences.getRecentDirectories();
 		recorder.check();
 		// assert
-		assertEquals(1, recentDirectories.size());
-		assertEquals("pelle", recentDirectories.get(0));
+		assertEquals(1, recentDirectories.length);
+		assertEquals("pelle", recentDirectories[0]);
 	}
 
 	public final void testGetRecentStringsToFindEmpty() {
@@ -192,10 +192,10 @@ public class ZipFinderPreferencesTest extends TestCase {
 		// expect
 		recorder.expect(preferencesMock).get("StringsToFind", "");
 		// replay
-		final LinkedList<String> recentDirectories = zipFinderPreferences.getRecentStringsToFind();
+		final String[] recentDirectories = zipFinderPreferences.getRecentStringsToFind();
 		recorder.check();
 		// assert
-		assertEquals(0, recentDirectories.size());
+		assertEquals(0, recentDirectories.length);
 	}
 
 	public final void testGetRecentStringsToFindManyEntry() {
@@ -204,13 +204,13 @@ public class ZipFinderPreferencesTest extends TestCase {
 		// expect
 		recorder.expect(preferencesMock).get("StringsToFind", "");
 		// replay
-		final LinkedList<String> recentDirectories = zipFinderPreferences.getRecentStringsToFind();
+		final String[] recentDirectories = zipFinderPreferences.getRecentStringsToFind();
 		recorder.check();
 		// assert
-		assertEquals(3, recentDirectories.size());
-		assertEquals("pelle", recentDirectories.get(0));
-		assertEquals("anna", recentDirectories.get(1));
-		assertEquals("stina", recentDirectories.get(2));
+		assertEquals(3, recentDirectories.length);
+		assertEquals("pelle", recentDirectories[0]);
+		assertEquals("anna", recentDirectories[1]);
+		assertEquals("stina", recentDirectories[2]);
 	}
 
 	public final void testGetRecentStringsToFindOneEntry() {
@@ -219,11 +219,11 @@ public class ZipFinderPreferencesTest extends TestCase {
 		// expect
 		recorder.expect(preferencesMock).get("StringsToFind", "");
 		// replay
-		final LinkedList<String> recentDirectories = zipFinderPreferences.getRecentStringsToFind();
+		final String[] recentDirectories = zipFinderPreferences.getRecentStringsToFind();
 		recorder.check();
 		// assert
-		assertEquals(1, recentDirectories.size());
-		assertEquals("pelle", recentDirectories.get(0));
+		assertEquals(1, recentDirectories.length);
+		assertEquals("pelle", recentDirectories[0]);
 	}
 
 	@Override
