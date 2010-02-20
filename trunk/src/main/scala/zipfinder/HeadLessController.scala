@@ -13,31 +13,33 @@ class HeadLessController(directory:String, stringToFind:String) {
 	}
 
 	private def createFileFinderThread = {
-		val fileFinder = new FileFinder(directory, foundFilesQueue, statusLogger)
+		val zipSearcherActor = new ZipSearcherActor(stringToFind, statusLogger)
+		val fileFinder = new FileFinder(directory, statusLogger, zipSearcherActor)
 		new Thread(fileFinder)
 	}
 
-	private def createZipSearcherThread = {
-		val zipSearcherRunner = new ZipSearcherRunner(foundFilesQueue, stringToFind)
-		zipSearcherRunner.setStatusLogger(statusLogger)
-		new Thread(zipSearcherRunner)
-	}
+//	private def createZipSearcherThread = {
+//		val zipSearcherRunner = new ZipSearcherRunner(foundFilesQueue, stringToFind)
+//		zipSearcherRunner.setStatusLogger(statusLogger)
+//		new Thread(zipSearcherRunner)
+//	}
 
 	private def findClassesInArchives {
+
 		val fileFinderThread = createFileFinderThread
-		val zipSearcherThread = createZipSearcherThread
+//		val zipSearcherThread = createZipSearcherThread
 		fileFinderThread.start
-		zipSearcherThread.start
+//		zipSearcherThread.start
 		try {
 			fileFinderThread.join
 		} catch {
 		  case e:InterruptedException => statusLogger.logError(e.getMessage)
 		}
-		try {
-			zipSearcherThread.join
-		} catch {
-		  case e:InterruptedException => statusLogger.logError(e.getMessage)
-		}
+//		try {
+//			zipSearcherThread.join
+//		} catch {
+//		  case e:InterruptedException => statusLogger.logError(e.getMessage)
+//		}
 	}
 
 	private def setStatusLogger(statusLogger:StatusLogger) {
