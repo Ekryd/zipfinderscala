@@ -6,14 +6,18 @@ import java.io._
 import collection.mutable.Queue
 import zipfinder.logger._
 
-class ZipSearcherActor(stringToFind:String) extends Actor {
-  case class Search(file:File)
-  case class Stop()
-  case class Process()
+/** Search in this file */
+case class Search(file:File)
+/** Request a direct stop */
+case class Stop()
+/** Finish all searches and then stop */
+case class Done()
+
+class ZipSearcherActor(stringToFind:String, statusLogger:StatusLogger) extends Actor {
+  /** perform the actual search in file */
+  private case class Process()
 
   private var nrOfFiles = 0
-  private var statusLogger:StatusLogger = _
-  private var run = true;
   private val queue = new Queue[File]
   private var processing = false
 
@@ -27,6 +31,7 @@ class ZipSearcherActor(stringToFind:String) extends Actor {
 	}
 
   def addFile(file:File) {
+    nrOfFiles += 1
 	queue += file
 	if (!processing) {
 	  processing = true
@@ -38,7 +43,7 @@ class ZipSearcherActor(stringToFind:String) extends Actor {
 	if (!queue.isEmpty) {
 	  val mainActor = this
       val zipFile = queue.dequeue
-	  actor {
+
 		val searcher = new ZipSearcher(stringToFind)
 		searcher.setStatusLogger(statusLogger)
 		val names = searcher.findEntries(new ZipFileEntries(zipFile))
@@ -46,23 +51,38 @@ class ZipSearcherActor(stringToFind:String) extends Actor {
 			printFileInfo(zipFile, names)
 		}
 		mainActor ! Process
-	  }
+
 	} else {
 		processing = false
 	}
   }
 
  def act() {
+    var run = true
 	while(run) {
 	  receive {
-	    case Search(file) => addFile(file)
-	    case Stop => run = false
-	    case Process => processFirstFile
+	    case Search(file) => {
+	      println("search")
+	      addFile(file)
+        }
+	    case Stop => {
+	      println("stop")
+	      run = false
+	      statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
+        }
+	    case Done => {
+	      println("done")
+	    	if (mailboxSize != 0)
+	    		this ! Done
+            else
+            	this ! Stop
+	    }
+	    case Process => {
+	      println("process")
+	      processFirstFile
+	    }
      }
 	}
   }
-
-  def setStatusLogger(statusLogger:StatusLogger) {
-	this.statusLogger = statusLogger
-  }
 }
+

@@ -3,9 +3,9 @@ package zipfinder.gui
 import javax.swing.SwingUtilities
 
 import zipfinder.FileFinder
-import zipfinder.FoundFilesQueue
+//import zipfinder.FoundFilesQueue
 import zipfinder.ZipFinderPreferences
-import zipfinder.ZipSearcherRunner
+//import zipfinder.ZipSearcherRunner
 import zipfinder.gui._
 import zipfinder.logger.StatusLogger
 
@@ -39,15 +39,16 @@ class SwingController extends StatusLogger with SearchButtonListener {
 	}
 
 	def performSearch {
-		val foundFilesQueue = new FoundFilesQueue
+//		val foundFilesQueue = new FoundFilesQueue
 		val directory = swingGui.getDirectory
 		val stringToFind = swingGui.getStringToFind
-		val fileFinderThread = createFileFinderThread(directory, foundFilesQueue)
-		val zipSearcherThread = createZipSearcherThread(stringToFind, foundFilesQueue)
+		val zipSearcherActor = new ZipSearcherActor(stringToFind, statusLogger)
+		val fileFinderThread = createFileFinderThread(directory, zipSearcherActor)
+//		val zipSearcherThread = createZipSearcherThread(stringToFind, foundFilesQueue)
 		ZipFinderPreferences.addDirectory(directory)
 		ZipFinderPreferences.addStringToFind(stringToFind)
 		fileFinderThread.start
-		zipSearcherThread.start
+//		zipSearcherThread.start
 		new Thread(new Runnable {
 			def run {
 				try {
@@ -55,11 +56,11 @@ class SwingController extends StatusLogger with SearchButtonListener {
 				} catch {
 				  case e:InterruptedException => statusLogger.logError(e.getMessage)
 				}
-				try {
-					zipSearcherThread.join
-				} catch {
-				  case e:InterruptedException => statusLogger.logError(e.getMessage)
-				}
+//				try {
+//					zipSearcherThread.join
+//				} catch {
+//				  case e:InterruptedException => statusLogger.logError(e.getMessage)
+//				}
 				swingGui.showDoneWorking
 				fileFinder = null
 			}
@@ -79,14 +80,14 @@ class SwingController extends StatusLogger with SearchButtonListener {
 		})
 	}
 
-	def createFileFinderThread(directory:String, foundFilesQueue:FoundFilesQueue) = {
-		val fileFinder = new FileFinder(directory, foundFilesQueue, statusLogger)
+	def createFileFinderThread(directory:String, zipSearcherActor:ZipSearcherActor) = {
+		val fileFinder = new FileFinder(directory, statusLogger, zipSearcherActor)
 		new Thread(fileFinder)
 	}
 
-	def createZipSearcherThread(stringToFind:String, foundFilesQueue:FoundFilesQueue) = {
-		val zipSearcherRunner = new ZipSearcherRunner(foundFilesQueue, stringToFind)
-		zipSearcherRunner.setStatusLogger(statusLogger)
-		new Thread(zipSearcherRunner)
-	}
+//	def createZipSearcherThread(stringToFind:String, foundFilesQueue:FoundFilesQueue) = {
+//		val zipSearcherRunner = new ZipSearcherRunner(foundFilesQueue, stringToFind)
+//		zipSearcherRunner.setStatusLogger(statusLogger)
+//		new Thread(zipSearcherRunner)
+//	}
 }
