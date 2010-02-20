@@ -1,16 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/scala"/>
-	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="src" path="src/test/scala"/>
-	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CheesyMock"/>
-	<classpathentry kind="lib" path="/home/bjorn/.m2/repository/cglib/cglib/2.2/cglib-2.2.jar"/>
-	<classpathentry kind="lib" path="/home/bjorn/.m2/repository/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/home/bjorn/.m2/repository/asm/asm/3.1/asm-3.1.jar"/>
-	<classpathentry kind="lib" path="/home/bjorn/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="/home/bjorn/.m2/repository/log4j/log4j/1.2.14/log4j-1.2.14.jar"/>
-	<classpathentry kind="output" path="bin"/>
+  <classpathentry kind="src" path="src/test/java" output="target/test-classes" including="**/*.scala|**/*.java"/>
+  <classpathentry kind="src" path="src/test/scala" output="target/test-classes" including="**/*.scala|**/*.java"/>
+  <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
+  <classpathentry kind="src" path="src/main/scala" including="**/*.scala|**/*.java"/>
+  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" path="M2_REPO/asm/asm/3.1/asm-3.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/cglib/cglib/2.2/cglib-2.2.jar" sourcepath="M2_REPO/cglib/cglib/2.2/cglib-2.2-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/bjorn/.m2/repository/cglib/cglib/2.2/cglib-2.2-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT.jar" sourcepath="M2_REPO/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/bjorn/.m2/repository/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/commons-io/commons-io/1.4/commons-io-1.4.jar" sourcepath="M2_REPO/commons-io/commons-io/1.4/commons-io-1.4-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/bjorn/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.2/junit-3.8.2.jar" sourcepath="M2_REPO/junit/junit/3.8.2/junit-3.8.2-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/bjorn/.m2/repository/junit/junit/3.8.2/junit-3.8.2-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8.jar" sourcepath="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/scala-lang/scala-library/2.7.5/scala-library-2.7.5.jar" sourcepath="M2_REPO/org/scala-lang/scala-library/2.7.5/scala-library-2.7.5-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/bjorn/.m2/repository/org/scala-lang/scala-library/2.7.5/scala-library-2.7.5-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 </classpath>
