@@ -59,8 +59,8 @@ class ZipSearcherActor(stringToFind:String, statusLogger:StatusLogger) extends A
 
  def act() {
     var run = true
-	while(run) {
-	  receive {
+	loopWhile(run) {
+	  react {
 	    case Search(file) => {
 	      println("search")
 	      addFile(file)

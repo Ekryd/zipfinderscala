@@ -15,6 +15,8 @@ import javax.swing.text.BadLocationException
 import swing._
 import swing.event._
 import GridBagPanel._
+import actors._
+import actors.Actor._
 
 class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String], searchButtonListener:SearchButtonListener) {
   // Specalare för att det inte finns någon standard för PropertyChangeListener i Scala
@@ -111,11 +113,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 		  listenTo(searchButton, directoryComboBox, directoryTree)
 		  reactions += {
 		    case ButtonClicked(b) =>
-		      if (searchButton.text == SEARCH_LABEL) {
-					searchButtonListener.performSearch
-				} else {
-					searchButtonListener.performStopSearch
-				}
+		      searchButtonListener.performButtonPress
 		    case ValueChanged(e) =>
 				val file = new File(directoryComboBox.item)
 				if (file.canRead) {
@@ -127,8 +125,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 				if (oldValue != directoryTree.selectedFile.toString) {
 					directoryComboBox.item = directoryTree.selectedFile.toString
 				}
-		  }		  
-      peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+		  }
 		}
 		showFrameFunction = { frame.visible = true }
 		frame.pack
@@ -143,12 +140,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 	}
 
 	def showDoneWorking {
-		SwingUtilities.invokeLater(new Runnable {
-			def run {
-				searchButton.text = SEARCH_LABEL
-				searchButton.enabled = true
-			}
-		})
+		searchButton.text = SEARCH_LABEL
 	}
 
 	def showFrame {
@@ -156,10 +148,7 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 	}
 
 	def showWorking {
-		searchButton.enabled = false
-		SwingUtilities.invokeLater(new Runnable {
-			def run {
-			  searchButton.text =
+		searchButton.text =
 			    searchButton.text match {
 			      case "working.   " =>  "working..  "
 			      case "working..  " =>  "working... "
@@ -168,12 +157,9 @@ class SwingGui(recentDirectories:Array[String], recentStringsToFind:Array[String
 			      case _ => "working.   "
 			    }
 			}
-		})
-	}
 
 }
 
 trait SearchButtonListener {
-	def performSearch
-	def performStopSearch
+	def performButtonPress
 }
