@@ -1,7 +1,6 @@
 package zipfinder
 
 import java.io._
-import java.util.Enumeration
 import java.util.zip._
 
 /**
@@ -10,12 +9,11 @@ import java.util.zip._
  * @author bjorn
  *
  */
-class ZipFileEntries(val file:File) {
+class ZipFileEntries(val file: File) {
+  def getEntries = {
+    val zipFile = new ZipFile(file)
+    zipFile.entries
+  }
 
-	def getEntries = {
-		val zipFile = new ZipFile(file)
-		zipFile.entries
-	}
-
-	def this() { this(null) }
+  def this() {this (null)}
 }
