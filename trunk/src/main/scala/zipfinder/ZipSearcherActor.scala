@@ -5,84 +5,68 @@ import actors.Actor._
 import java.io._
 import collection.mutable.Queue
 import zipfinder.logger._
+import zipfinder.gui.SwingControllerActorAll
+import zipfinder.gui.StopSearch
 
-/** Search in this file */
-case class Search(file:File)
-/** Request a direct stop */
+/**Search in this file */
+case class SearchFile(file: File)
+
+/**Request a direct stop */
 case class Stop()
-/** Finish all searches and then stop */
-case class Done()
 
-class ZipSearcherActor(stringToFind:String, statusLogger:StatusLogger) extends Actor {
-  /** perform the actual search in file */
-  private case class Process()
+/**No more searches */
+case class Done(actor: SwingControllerActorAll)
 
+class ZipSearcherActor(stringToFind: String, statusLogger: StatusLogger) extends Actor {
   private var nrOfFiles = 0
-  private val queue = new Queue[File]
-  private var processing = false
 
-	def printFileInfo(zipFile:File, names:Array[String]) {
-		statusLogger.logFilesFound(zipFile.getAbsolutePath)
-		for (name <- names) {
-			val stringBuffer = new StringBuffer
-			stringBuffer.append("  ").append(name)
-			statusLogger.logFilesFound(stringBuffer.toString)
-		}
-	}
+  private def printFileInfo(zipFile: File, names: Array[String]) {
+    statusLogger.logFilesFound(zipFile.getAbsolutePath)
+    for (name <- names) {
+      val stringBuffer = new StringBuffer
+      stringBuffer.append("  ").append(name)
+      statusLogger.logFilesFound(stringBuffer.toString)
+    }
+  }
 
-  def addFile(file:File) {
+  private def processFile(file: File) {
+    println("process")
     nrOfFiles += 1
-	queue += file
-	if (!processing) {
-	  processing = true
-	  this ! Process
-	}
+    val searcher = new ZipSearcher(stringToFind)
+    searcher.setStatusLogger(statusLogger)
+    val names = searcher.findEntries(new ZipFileEntries(file))
+    if (names.length != 0) {
+      printFileInfo(file, names)
+    }
   }
 
-  def processFirstFile() {
-	if (!queue.isEmpty) {
-	  val mainActor = this
-      val zipFile = queue.dequeue
+  private def stopInQueue = mailbox.foldLeft(false) {(found, msg) => (found || msg == Stop)}
 
-		val searcher = new ZipSearcher(stringToFind)
-		searcher.setStatusLogger(statusLogger)
-		val names = searcher.findEntries(new ZipFileEntries(zipFile))
-		if (names.length != 0) {
-			printFileInfo(zipFile, names)
-		}
-		mainActor ! Process
-
-	} else {
-		processing = false
-	}
+  def act() {
+    loop {
+      react {
+        case SearchFile(file) => {
+          if (stopInQueue) stop
+          processFile(file)
+        }
+        case Stop => {
+          stop
+        }
+        case Done(actor) => {
+          println("done")
+          statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
+          actor ! StopSearch
+          exit
+        }
+        case msg => {println("WTF!" + msg)}
+      }
+    }
   }
 
- def act() {
-    var run = true
-	loopWhile(run) {
-	  react {
-	    case Search(file) => {
-	      println("search")
-	      addFile(file)
-        }
-	    case Stop => {
-	      println("stop")
-	      run = false
-	      statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
-        }
-	    case Done => {
-	      println("done")
-	    	if (mailboxSize != 0)
-	    		this ! Done
-            else
-            	this ! Stop
-	    }
-	    case Process => {
-	      println("process")
-	      processFirstFile
-	    }
-     }
-	}
+  private def stop {
+    println("stop")
+    statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
+    exit
   }
 }
 
