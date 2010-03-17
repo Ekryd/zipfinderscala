@@ -38,20 +38,24 @@ class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[Stri
     }
   }
 
-  def addToConsole(text: String) {
-    SwingUtilities.invokeLater(new Runnable {
-      def run {
-        while (console.lineCount > MAX_LINES) {
-          try {
-            val offset = console.peer.getLineEndOffset(0)
-            console.peer.getDocument.remove(0, offset)
-          } catch {
-            case e: BadLocationException => e.printStackTrace
-          }
-        }
-        console.append(text + "\n")
-      }
+  def invokeLater(function: Unit) {
+    SwingUtilities.invokeLater(new Runnable() {
+      def run {function}
     })
+  }
+
+  def addToConsole(text: String) {
+    invokeLater {
+      while (console.lineCount > MAX_LINES) {
+        try {
+          val offset = console.peer.getLineEndOffset(0)
+          console.peer.getDocument.remove(0, offset)
+        } catch {
+          case e: BadLocationException => e.printStackTrace
+        }
+      }
+      console.append(text + "\n")
+    }
   }
 
 
@@ -126,7 +130,9 @@ class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[Stri
   }
 
   def showDoneWorking {
-    searchButton.text = SEARCH_LABEL
+    invokeLater {
+      searchButton.text = SEARCH_LABEL
+    }
   }
 
   def showFrame {
@@ -134,14 +140,16 @@ class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[Stri
   }
 
   def showWorking {
-    searchButton.text =
-            searchButton.text match {
-              case "working.   " => "working..  "
-              case "working..  " => "working... "
-              case "working... " => "working...."
-              case "working...." => "working.   "
-              case _ => "working.   "
-            }
+    invokeLater {
+      searchButton.text =
+              searchButton.text match {
+                case "working.   " => "working..  "
+                case "working..  " => "working... "
+                case "working... " => "working...."
+                case "working...." => "working.   "
+                case _ => "working.   "
+              }
+    }
   }
 
 }

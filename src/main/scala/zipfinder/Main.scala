@@ -1,15 +1,15 @@
 package zipfinder
 
-import zipfinder.gui.SwingControllerActorAll
+import zipfinder.gui.SwingControllerActor
 
 object Main extends Application {
   override def main(args: Array[String]) {
     args.length match {
       case 0 =>
-        new SwingControllerActorAll {start}
+        new SwingControllerActor {start}
       case 1 =>
         ZipFinderPreferences addDirectory args(0)
-        new SwingControllerActorAll {start}
+        new SwingControllerActor {start}
       case 2 =>
         ZipFinderPreferences addDirectory args(0)
         ZipFinderPreferences addStringToFind args(1)
