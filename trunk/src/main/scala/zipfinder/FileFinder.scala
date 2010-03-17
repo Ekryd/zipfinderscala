@@ -22,7 +22,7 @@ class FileFinder(directory: String, statusLogger: StatusLogger, zipSearcherActor
       }
     } finally {
       println("request done")
-      zipSearcherActor ! Done
+      //      zipSearcherActor ! Done
     }
   }
 
@@ -42,7 +42,7 @@ class FileFinder(directory: String, statusLogger: StatusLogger, zipSearcherActor
       statusLogger.logFoundZipFile
       try {
         println("request search")
-        zipSearcherActor ! Search(file)
+        //        zipSearcherActor ! Search(file)
       } catch {
         case e: InterruptedException => statusLogger.logError(e.getMessage)
       }

@@ -9,7 +9,7 @@ object StandardStatusLogger extends StatusLogger {
     System.out println (msg)
   }
 
-  def logFoundZipFile {
-  }
+  def logFoundZipFile {}
 
+  def logDone {}
 }

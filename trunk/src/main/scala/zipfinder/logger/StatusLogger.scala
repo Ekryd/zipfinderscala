@@ -6,4 +6,6 @@ trait StatusLogger {
   def logFilesFound(msg: String)
 
   def logFoundZipFile
+
+  def logDone
 }

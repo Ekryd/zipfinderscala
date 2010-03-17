@@ -8,17 +8,19 @@ import zipfinder.logger._
 import zipfinder.gui.SwingControllerActorAll
 import zipfinder.gui.StopSearch
 
-/**Search in this file */
-case class SearchFile(file: File)
 
-/**Request a direct stop */
-case class Stop()
-
-/**No more searches */
-case class Done(actor: SwingControllerActorAll)
-
-class ZipSearcherActor(stringToFind: String, statusLogger: StatusLogger) extends Actor {
+class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends Actor {
   private var nrOfFiles = 0
+
+  /**Search in this file */
+  case class Search(file: File)
+
+  /**Request a direct stop */
+  case class Stop()
+
+  /**No more searches */
+  case class Done()
+
 
   private def printFileInfo(zipFile: File, names: Array[String]) {
     statusLogger.logFilesFound(zipFile.getAbsolutePath)
@@ -45,17 +47,17 @@ class ZipSearcherActor(stringToFind: String, statusLogger: StatusLogger) extends
   def act() {
     loop {
       react {
-        case SearchFile(file) => {
-          if (stopInQueue) stop
+        case Search(file) => {
+          if (stopInQueue) stopNow
           processFile(file)
         }
         case Stop => {
-          stop
+          stopNow
         }
-        case Done(actor) => {
+        case Done => {
           println("done")
           statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
-          actor ! StopSearch
+          statusLogger.logDone
           exit
         }
         case msg => {println("WTF!" + msg)}
@@ -63,10 +65,22 @@ class ZipSearcherActor(stringToFind: String, statusLogger: StatusLogger) extends
     }
   }
 
-  private def stop {
+  private def stopNow {
     println("stop")
     statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
     exit
+  }
+
+  def search(file: File) {
+    this ! Search(file)
+  }
+
+  def stop {
+    this ! Stop
+  }
+
+  def done {
+    this ! Done
   }
 }
 

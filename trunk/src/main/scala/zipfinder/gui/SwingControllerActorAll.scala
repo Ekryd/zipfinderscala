@@ -20,7 +20,6 @@ class SwingControllerActorAll extends Actor with StatusLogger with SearchButtonL
   case class LogFilesFound(msg: String)
   case class LogFoundZipFile()
   case class Search(zipSearcherActor: ZipSearcherActor, directory: File)
-  case class ToggleSearch()
 
   def getSwingGui = {
     var recentDirectories = ZipFinderPreferences.getRecentDirectories
@@ -43,7 +42,7 @@ class SwingControllerActorAll extends Actor with StatusLogger with SearchButtonL
           running = true
           swingGui.showWorking
           println("StartSearch")
-          val zipSearcherActor = new ZipSearcherActor(stringToFind, this)
+          val zipSearcherActor = new ZipSearcherActor(this, stringToFind)
           ZipFinderPreferences.addDirectory(directory)
           ZipFinderPreferences.addStringToFind(stringToFind)
           zipSearcherActor.start
@@ -58,7 +57,7 @@ class SwingControllerActorAll extends Actor with StatusLogger with SearchButtonL
           println("Search")
           if (stopInQueue) {
             println("request Stop")
-            zipSearcherActor ! Stop
+            zipSearcherActor.stop
           } else {
             searchForFiles(zipSearcherActor, directory)
           }
@@ -94,7 +93,7 @@ class SwingControllerActorAll extends Actor with StatusLogger with SearchButtonL
       for (file <- zipFiles) {
         logFoundZipFile
         println("request SearchFile")
-        zipSearcherActor ! SearchFile(file)
+        zipSearcherActor.search(file)
       }
       val directories = directory.listFiles(DirectoryFileFilter)
       for (directory <- directories) {
@@ -104,7 +103,7 @@ class SwingControllerActorAll extends Actor with StatusLogger with SearchButtonL
     }
     if (!searchInQueue) {
       println("request Done")
-      zipSearcherActor ! Done(this)
+      zipSearcherActor.done
     }
   }
 
@@ -122,6 +121,10 @@ class SwingControllerActorAll extends Actor with StatusLogger with SearchButtonL
   }
 
   def logFoundZipFile {
+    this ! LogFoundZipFile
+  }
+
+  def logDone {
     this ! LogFoundZipFile
   }
 

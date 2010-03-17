@@ -6,11 +6,20 @@ import actors._
 import actors.Actor._
 import zipfinder.ZipFinderPreferences
 import zipfinder.logger.StatusLogger
+import zipfinder.filefilter.DirectoryFileFilter
+import zipfinder.filefilter.ZipFileFilter
 
 class SwingControllerActor extends Actor with StatusLogger with SearchButtonListener {
   private val swingGui = getSwingGui
-  private var fileFinderActor: FileFinderActor = _
   private var running = false
+  private var fileFinder: FileFinderActor = _
+
+  case class StartSearch(directory: String, stringToFind: String)
+  case class LogError(msg: String)
+  case class LogFilesFound(msg: String)
+  case class LogFoundZipFile()
+  case class Search(zipSearcherActor: ZipSearcherActor, directory: File)
+  case class StopSearch()
 
   def getSwingGui = {
     var recentDirectories = ZipFinderPreferences.getRecentDirectories
@@ -29,58 +38,61 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
   def act() {
     loop {
       react {
-        //        case StartSearch => {
-        //          running = true
-        //          swingGui.showWorking
-        //          println("request search filefinder")
-        //          val directory = swingGui.getDirectory
-        //          val stringToFind = swingGui.getStringToFind
-        //          val zipSearcherActor = new ZipSearcherActor(stringToFind, this)
-        //          fileFinderActor = new FileFinderActor(this, zipSearcherActor)
-        //          ZipFinderPreferences.addDirectory(directory)
-        //          ZipFinderPreferences.addStringToFind(stringToFind)
-        //          zipSearcherActor.start
-        //          fileFinderActor.start
-        //          fileFinderActor ! Search(new File(directory))
-        //        }
-        //        case StopSearch => {
-        //          running = false
-        //          if (fileFinderActor != null) {
-        //            println("request stop filefinder")
-        //            fileFinderActor ! Stop
-        //          }
-        //          swingGui.showDoneWorking
-        //        }
-        //        case LogError(msg) => {
-        //          swingGui.addToConsole(msg)
-        //        }
-        //        case LogFilesFound(msg) => {
-        //          swingGui.addToConsole(msg)
-        //        }
-        //        case LogFoundZipFile => {
-        //          println("showwork")
-        //          swingGui.showWorking
-        //        }
+        case StartSearch(directory, stringToFind) => {
+          running = true
+          swingGui.showWorking
+          println("StartSearch")
+          ZipFinderPreferences.addDirectory(directory)
+          ZipFinderPreferences.addStringToFind(stringToFind)
+          fileFinder = new FileFinderActor(this, stringToFind) {start}
+          fileFinder.search(new File(directory))
+        }
+        case StopSearch => {
+          stop
+        }
+        case LogError(msg) => {
+          swingGui.addToConsole(msg)
+        }
+        case LogFilesFound(msg) => {
+          println("LogFilesFound")
+          swingGui.addToConsole(msg)
+        }
+        case LogFoundZipFile => {
+          swingGui.showWorking
+        }
         case msg => {println("WTF!" + msg)}
       }
     }
   }
 
+  private def stopInQueue = mailbox.foldLeft(false) {(found, msg) => (found || msg == StopSearch)}
+
+  def stop {
+    println("StopSearch")
+    running = false
+    fileFinder.stop
+    swingGui.showDoneWorking
+  }
+
   def performButtonPress(directory: String, stringToFind: String) {
-    println("performSearch")
-    //    this ! (if (running) StopSearch else StartSearch)
+    println("performButtonPress")
+    this ! (if (running) StopSearch else StartSearch(directory, stringToFind))
   }
 
   def logError(msg: String) {
-    //    this ! LogError(msg)
+    this ! LogError(msg)
   }
 
   def logFilesFound(msg: String) {
-    //    this ! LogFilesFound(msg)
+    this ! LogFilesFound(msg)
   }
 
   def logFoundZipFile {
-    //    this ! LogFoundZipFile
+    this ! LogFoundZipFile
+  }
+
+  def logDone {
+    this ! StopSearch
   }
 
 }
