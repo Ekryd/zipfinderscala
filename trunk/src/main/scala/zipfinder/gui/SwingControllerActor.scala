@@ -54,11 +54,15 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
           swingGui.addToConsole(msg)
         }
         case LogFilesFound(msg) => {
+          if (!stopInQueue) {
           println("LogFilesFound")
           swingGui.addToConsole(msg)
+          }
         }
         case LogFoundZipFile => {
+          if (!stopInQueue) {
           swingGui.showWorking
+          }
         }
         case msg => {println("WTF!" + msg)}
       }

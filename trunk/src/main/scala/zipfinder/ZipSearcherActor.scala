@@ -32,7 +32,7 @@ class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends
   }
 
   private def processFile(file: File) {
-    println("process")
+    println("ZipSearch process")
     nrOfFiles += 1
     val searcher = new ZipSearcher(stringToFind)
     searcher.setStatusLogger(statusLogger)
@@ -55,7 +55,7 @@ class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends
           stopNow
         }
         case Done => {
-          println("done")
+          println("ZipSearch done")
           statusLogger.logFilesFound("Found " + nrOfFiles + " compressed files")
           statusLogger.logDone
           exit
@@ -76,6 +76,7 @@ class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends
   }
 
   def stop {
+    println("ZipSearcher Request stop")
     this ! Stop
   }
 
