@@ -1,4 +1,4 @@
-package zipfinder.gui
+package zipfinder.actor
 
 import java.io.File
 
@@ -6,20 +6,15 @@ import actors._
 import actors.Actor._
 import zipfinder.ZipFinderPreferences
 import zipfinder.logger.StatusLogger
-import zipfinder.filefilter.DirectoryFileFilter
-import zipfinder.filefilter.ZipFileFilter
+import zipfinder.filefilter._
+import zipfinder.gui._
+
 
 class SwingControllerActor extends Actor with StatusLogger with SearchButtonListener {
   private val swingGui = getSwingGui
   private var running = false
   private var fileFinder: FileFinderActor = _
 
-  case class StartSearch(directory: String, stringToFind: String)
-  case class LogError(msg: String)
-  case class LogFilesFound(msg: String)
-  case class LogFoundZipFile()
-  case class Search(zipSearcherActor: ZipSearcherActor, directory: File)
-  case class StopSearch()
 
   def getSwingGui = {
     var recentDirectories = ZipFinderPreferences.getRecentDirectories
@@ -47,21 +42,25 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
           fileFinder = new FileFinderActor(this, stringToFind) {start}
           fileFinder.search(new File(directory))
         }
+        case LogEndSearch(nrOfFiles) => {
+          swingGui.addToConsole(nrOfFiles)
+          stop
+        }
         case StopSearch => {
           stop
         }
         case LogError(msg) => {
           swingGui.addToConsole(msg)
         }
-        case LogFilesFound(msg) => {
+        case LogFoundFile(file: File, classNames: List[String]) => {
           if (!stopInQueue) {
-          println("LogFilesFound")
-          swingGui.addToConsole(msg)
+            println("LogFilesFound")
+            swingGui.addToConsole(file, classNames)
           }
         }
         case LogFoundZipFile => {
           if (!stopInQueue) {
-          swingGui.showWorking
+            swingGui.showWorking
           }
         }
         case msg => {println("WTF!" + msg)}
@@ -87,16 +86,16 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
     this ! LogError(msg)
   }
 
-  def logFilesFound(msg: String) {
-    this ! LogFilesFound(msg)
+  def logFoundFile(file: File, classNames: List[String]) {
+    this ! LogFoundFile(file, classNames)
   }
 
   def logFoundZipFile {
     this ! LogFoundZipFile
   }
 
-  def logDone {
-    this ! StopSearch
+  def logEndSearch(nrOfFiles: Int) {
+    this ! LogEndSearch(nrOfFiles)
   }
 
 }

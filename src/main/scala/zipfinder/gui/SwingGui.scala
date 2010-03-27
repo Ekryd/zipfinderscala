@@ -38,24 +38,43 @@ class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[Stri
     }
   }
 
-  def invokeLater(function: Unit) {
+  private def invokeLater(function: Unit) {
     SwingUtilities.invokeLater(new Runnable() {
       def run {function}
     })
   }
 
-  def addToConsole(text: String) {
-    invokeLater {
-      while (console.lineCount > MAX_LINES) {
-        try {
-          val offset = console.peer.getLineEndOffset(0)
-          console.peer.getDocument.remove(0, offset)
-        } catch {
-          case e: BadLocationException => e.printStackTrace
-        }
+  private def addToConsole(function: () => String) {
+    while (console.lineCount > MAX_LINES) {
+      try {
+        val offset = console.peer.getLineEndOffset(0)
+        console.peer.getDocument.remove(0, offset)
+      } catch {
+        case e: BadLocationException => e.printStackTrace
       }
-      console.append(text + "\n")
     }
+    console.append(function())
+  }
+
+  def addToConsole(nrOfFiles: Int) {
+    addToConsole(() => "Found " + nrOfFiles + " compressed files")
+  }
+
+  def addToConsole(msg: String) {
+    addToConsole(() => msg)
+  }
+
+  def addToConsole(zipFile: File, names: List[String]) {
+    addToConsole(() =>
+      {
+        val lines = names.size;
+        val text = new StringBuilder
+        text.append(zipFile.getAbsolutePath).append('\n')
+        for (name <- names) {
+          text.append("  ").append(name).append('\n')
+        }
+        text.toString
+      })
   }
 
 
