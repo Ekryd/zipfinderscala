@@ -5,7 +5,7 @@ import javax.swing.text.AttributeSet
 import javax.swing.text.PlainDocument
 import swing._
 
-/** Utökar ett JTextField med minne för att komma ihåg tidigare sökningar */
+/**Utökar ett JTextField med minne för att komma ihåg tidigare sökningar */
 class RecentStringsTextField(protected val recentStringsToFind: Array[String]) extends TextField {
   override lazy val peer: JTextField = new JTextField("", 0) with SuperMixin {
     override protected def createDefaultModel = new UpperCaseDocument

@@ -76,7 +76,7 @@ class SwingControllerActor extends ApplicationActor with StatusLogger with Searc
     swingGui.showDoneWorking
   }
 
-  /** Om användaren trycker på sök-knappen */
+  /**Om användaren trycker på sök-knappen */
   def performButtonPress(directory: String, stringToFind: String) {
     //    println("performButtonPress")
     if (running) {

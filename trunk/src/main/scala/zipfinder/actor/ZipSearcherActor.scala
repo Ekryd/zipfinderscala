@@ -8,11 +8,11 @@ import zipfinder.logger._
 import zipfinder.gui._
 import zipfinder._
 
-/** Letar efter klassfiler i en jarfil */
+/**Letar efter klassfiler i en jarfil */
 class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends ApplicationActor {
   private var nrOfFiles = 0
 
-  /** Leta i en fil */
+  /**Leta i en fil */
   private def processFile(file: File) {
     //    println("ZipSearch process")
     nrOfFiles += 1
