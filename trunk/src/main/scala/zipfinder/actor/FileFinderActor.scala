@@ -1,4 +1,4 @@
-package zipfinder.gui
+package zipfinder.actor
 
 import java.io.File
 
@@ -6,36 +6,32 @@ import actors._
 import actors.Actor._
 import zipfinder.ZipFinderPreferences
 import zipfinder.logger.StatusLogger
-import zipfinder.filefilter.DirectoryFileFilter
-import zipfinder.filefilter.ZipFileFilter
+import zipfinder.filefilter._
 
 class FileFinderActor(statusLogger: StatusLogger, stringToFind: String) extends Actor {
   private val zipSearcherActor = new ZipSearcherActor(statusLogger, stringToFind) {start}
 
-  case class Search(directory: File)
-  case class Stop()
-  case class Done()
 
   def act() {
     loop {
       react {
         case Stop => {
           println("StopSearch")
-          zipSearcherActor.stop
+          zipSearcherActor ! Stop
           exit
         }
-        case Search(directory) => {
+        case SearchFile(directory) => {
           println("Search")
           if (stopInQueue) {
             println("request Stop")
-            zipSearcherActor.stop
+            zipSearcherActor ! Stop
             exit
           } else {
             searchForFiles(directory)
           }
         }
         case Done => {
-          zipSearcherActor.done
+          zipSearcherActor ! Done
         }
         case msg => {println("WTF!" + msg)}
       }
@@ -50,12 +46,12 @@ class FileFinderActor(statusLogger: StatusLogger, stringToFind: String) extends 
       for (file <- zipFiles) {
         statusLogger.logFoundZipFile
         println("request SearchFile")
-        zipSearcherActor.search(file)
+        zipSearcherActor ! SearchFile(file)
       }
       val directories = directory.listFiles(DirectoryFileFilter)
       for (directory <- directories) {
         println("request Search")
-        this ! Search(directory)
+        this ! SearchFile(directory)
       }
     }
     if (mailbox.isEmpty) {
@@ -65,7 +61,7 @@ class FileFinderActor(statusLogger: StatusLogger, stringToFind: String) extends 
   }
 
   def search(directory: File) {
-    this ! Search(directory)
+    this ! SearchFile(directory)
   }
 
   def stop() {

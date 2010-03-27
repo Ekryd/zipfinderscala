@@ -5,6 +5,7 @@ import java.io.File
 import zipfinder.filefilter.DirectoryFileFilter
 import zipfinder.filefilter.ZipFileFilter
 import zipfinder.logger.StatusLogger
+import zipfinder.actor._
 
 class FileFinder(directory: String, statusLogger: StatusLogger, zipSearcherActor: ZipSearcherActor) extends Runnable {
   private val DIRECTORY_FILE_FILTER = DirectoryFileFilter

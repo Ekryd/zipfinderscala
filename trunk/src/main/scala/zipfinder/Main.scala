@@ -1,6 +1,6 @@
 package zipfinder
 
-import zipfinder.gui.SwingControllerActor
+import zipfinder.actor._
 
 object Main extends Application {
   override def main(args: Array[String]) {

@@ -1,11 +1,13 @@
 package zipfinder.logger
 
+import java.io.File
+
 trait StatusLogger {
   def logError(msg: String)
 
-  def logFilesFound(msg: String)
+  def logFoundFile(file: File, classNames: List[String])
 
   def logFoundZipFile
 
-  def logDone
+  def logEndSearch(nrOfFiles: Int)
 }
