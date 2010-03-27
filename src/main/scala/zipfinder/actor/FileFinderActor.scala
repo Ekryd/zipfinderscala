@@ -8,22 +8,22 @@ import zipfinder.ZipFinderPreferences
 import zipfinder.logger.StatusLogger
 import zipfinder.filefilter._
 
-class FileFinderActor(statusLogger: StatusLogger, stringToFind: String) extends Actor {
-  private val zipSearcherActor = new ZipSearcherActor(statusLogger, stringToFind) {start}
-
-
+/**
+ * Letar upp zip eller jar-filer rekursivt
+ */
+class FileFinderActor(statusLogger: StatusLogger, zipSearcherActor: ZipSearcherActor) extends ApplicationActor {
   def act() {
     loop {
       react {
         case Stop => {
-          println("StopSearch")
+          //          println("StopSearch")
           zipSearcherActor ! Stop
           exit
         }
-        case SearchFile(directory) => {
-          println("Search")
+        case Search(directory) => {
+          //          println("Search")
           if (stopInQueue) {
-            println("request Stop")
+            //            println("request Stop")
             zipSearcherActor ! Stop
             exit
           } else {
@@ -38,34 +38,26 @@ class FileFinderActor(statusLogger: StatusLogger, stringToFind: String) extends 
     }
   }
 
-  private def stopInQueue = mailbox.foldLeft(false) {(found, msg) => (found || msg == Stop)}
-
+  /**Leta efter filer i en katalog rekursivt */
   private def searchForFiles(directory: File) {
     val zipFiles = directory.listFiles(ZipFileFilter)
     if (zipFiles != null) {
       for (file <- zipFiles) {
         statusLogger.logFoundZipFile
-        println("request SearchFile")
-        zipSearcherActor ! SearchFile(file)
+        //        println("request SearchFile")
+        zipSearcherActor ! Search(file)
       }
       val directories = directory.listFiles(DirectoryFileFilter)
       for (directory <- directories) {
-        println("request Search")
-        this ! SearchFile(directory)
+        //        println("request Search")
+        this ! Search(directory)
       }
     }
+    // Om det inte finns fler filer, så är vi klara
     if (mailbox.isEmpty) {
-      println("request Done")
+      //      println("request Done")
       this ! Done
     }
-  }
-
-  def search(directory: File) {
-    this ! SearchFile(directory)
-  }
-
-  def stop() {
-    this ! Stop
   }
 
 }

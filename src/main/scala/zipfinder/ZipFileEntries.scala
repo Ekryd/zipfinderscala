@@ -20,7 +20,7 @@ class ZipFileEntries(val file: File) {
   def this() {this (null)}
 }
 
-
+/** Hjälpklass för att konvertera en java.util.Enumerator till en scala.Iterator */
 class RichIterator[T](e: Enumeration[T]) extends Iterator[T] {
   def hasNext: Boolean = e.hasMoreElements()
 

@@ -8,13 +8,13 @@ import zipfinder.logger._
 import zipfinder.gui._
 import zipfinder._
 
-
-class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends Actor {
+/** Letar efter klassfiler i en jarfil */
+class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends ApplicationActor {
   private var nrOfFiles = 0
 
-
+  /** Leta i en fil */
   private def processFile(file: File) {
-    println("ZipSearch process")
+    //    println("ZipSearch process")
     nrOfFiles += 1
     val searcher = new ZipSearcher(stringToFind)
     searcher.setStatusLogger(statusLogger)
@@ -24,12 +24,11 @@ class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends
     }
   }
 
-  private def stopInQueue = mailbox.foldLeft(false) {(found, msg) => (found || msg == Stop)}
 
   def act() {
     loop {
       react {
-        case SearchFile(file) => {
+        case Search(file) => {
           if (stopInQueue) stopNow
           processFile(file)
         }
@@ -45,7 +44,7 @@ class ZipSearcherActor(statusLogger: StatusLogger, stringToFind: String) extends
   }
 
   private def stopNow {
-    println("stop")
+    //    println("stop")
     statusLogger.logEndSearch(nrOfFiles)
     exit
   }

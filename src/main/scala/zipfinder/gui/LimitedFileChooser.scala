@@ -12,6 +12,7 @@ import javax.swing.JPanel
 import FileChooser._
 import java.io._
 
+/** Skapar en FileChooser, men plockar bort lite knappar som inte behövs */
 class LimitedFileChooser extends swing.Component with Publisher {
   lazy val fileChooser: FileChooser = new FileChooser {
     controlButtonsAreShown = false
@@ -52,8 +53,6 @@ class LimitedFileChooser extends swing.Component with Publisher {
   private def getAllButtons(parent: Container, components: List[Component]): List[(AbstractButton, Container)] = {
     components match {
       case List() => List[(AbstractButton, Container)]()
-      //      case comp :: rest if comp.isInstanceOf[AbstractButton] => (comp.asInstanceOf[AbstractButton], parent) :: getAllButtons(parent, rest)
-      //      case comp :: rest if comp.isInstanceOf[Container] => getAllButtons(comp.asInstanceOf[Container], List.fromArray(comp.asInstanceOf[Container].getComponents)) ::: getAllButtons(parent, rest)
       case AButton(button) :: tail => (button, parent) :: getAllButtons(parent, tail)
       case AContainer(cont, comps) :: tail => getAllButtons(cont, comps) ::: getAllButtons(parent, tail)
       case head :: tail => getAllButtons(parent, tail)
@@ -65,7 +64,6 @@ class LimitedFileChooser extends swing.Component with Publisher {
     (true /: buttons)((first, pair) => {
       if (!first) {
         pair._2 remove pair._1
-        //          println("remove" + pair._1.getToolTipText)
       }
       false
     })

@@ -3,6 +3,7 @@ package zipfinder
 import java.util.prefs.BackingStoreException
 import java.util.prefs.Preferences
 
+/** Sparar av tidigare sökningar och kataloger */
 object ZipFinderPreferences {
   private val SEPARATOR = "|"
   private val SEPARATOR_REGEX = "\\" + SEPARATOR

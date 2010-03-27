@@ -9,6 +9,7 @@ import java.util.*;
 
 import junit.framework.TestCase;
 import cheesymock.*;
+import java.util.zip.ZipEntry;
 
 public class ZipSearcherTest extends TestCase {
 
@@ -18,10 +19,9 @@ public class ZipSearcherTest extends TestCase {
     protected void setUp() throws Exception {
         entries = Cheesy.mock(ZipFileEntries.class, new Object() {
             @SuppressWarnings("unused")
-            public Enumeration<? extends ZipEntry> getEntries() {
-                Vector<ZipEntry> returnValue = new Vector<ZipEntry>();
-                returnValue.add(new ZipEntry("java/lang/String.class"));
-                return returnValue.elements();
+            public List<ZipEntry> getEntries() {
+            	// TODO: Bah!!!
+                return null;
             }
         });
         recorder = new Recorder();

@@ -9,13 +9,14 @@ import zipfinder.logger.StatusLogger
 import zipfinder.filefilter._
 import zipfinder.gui._
 
-
-class SwingControllerActor extends Actor with StatusLogger with SearchButtonListener {
+/**Styr interaktionen med gui och andra actors */
+class SwingControllerActor extends ApplicationActor with StatusLogger with SearchButtonListener {
   private val swingGui = getSwingGui
   private var running = false
   private var fileFinder: FileFinderActor = _
+  private var zipSearcher: ZipSearcherActor = _
 
-
+  /**Skapa gui */
   def getSwingGui = {
     var recentDirectories = ZipFinderPreferences.getRecentDirectories
     if (recentDirectories.size == 0) {
@@ -36,17 +37,18 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
         case StartSearch(directory, stringToFind) => {
           running = true
           swingGui.showWorking
-          println("StartSearch")
+          //          println("StartSearch")
           ZipFinderPreferences.addDirectory(directory)
           ZipFinderPreferences.addStringToFind(stringToFind)
-          fileFinder = new FileFinderActor(this, stringToFind) {start}
-          fileFinder.search(new File(directory))
+          zipSearcher = new ZipSearcherActor(this, stringToFind) {start}
+          fileFinder = new FileFinderActor(this, zipSearcher) {start}
+          fileFinder ! Search(new File(directory))
         }
         case LogEndSearch(nrOfFiles) => {
           swingGui.addToConsole(nrOfFiles)
           stop
         }
-        case StopSearch => {
+        case Stop => {
           stop
         }
         case LogError(msg) => {
@@ -54,7 +56,7 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
         }
         case LogFoundFile(file: File, classNames: List[String]) => {
           if (!stopInQueue) {
-            println("LogFilesFound")
+            //            println("LogFilesFound")
             swingGui.addToConsole(file, classNames)
           }
         }
@@ -68,18 +70,23 @@ class SwingControllerActor extends Actor with StatusLogger with SearchButtonList
     }
   }
 
-  private def stopInQueue = mailbox.foldLeft(false) {(found, msg) => (found || msg == StopSearch)}
-
-  def stop {
-    println("StopSearch")
+  private def stop {
+    //    println("StopSearch")
     running = false
-    fileFinder.stop
     swingGui.showDoneWorking
   }
 
+  /** Om användaren trycker på sök-knappen */
   def performButtonPress(directory: String, stringToFind: String) {
-    println("performButtonPress")
-    this ! (if (running) StopSearch else StartSearch(directory, stringToFind))
+    //    println("performButtonPress")
+    if (running) {
+      // Lite proaktiv nedstängning
+      zipSearcher ! Stop
+      fileFinder ! Stop
+      this ! Stop
+    } else {
+      this ! StartSearch(directory, stringToFind)
+    }
   }
 
   def logError(msg: String) {

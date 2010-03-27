@@ -2,6 +2,7 @@ package zipfinder
 
 import zipfinder.actor._
 
+/** Startprogram */
 object Main extends Application {
   override def main(args: Array[String]) {
     args.length match {
