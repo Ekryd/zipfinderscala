@@ -2,7 +2,7 @@ package zipfinder.logger
 
 import java.io.File
 
-/** Logger som skriver till standard out */
+/**Logger som skriver till standard out */
 object StandardStatusLogger extends StatusLogger {
   def logError(msg: String) {
     System.err println (msg)

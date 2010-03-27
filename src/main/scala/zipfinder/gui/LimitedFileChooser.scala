@@ -12,7 +12,7 @@ import javax.swing.JPanel
 import FileChooser._
 import java.io._
 
-/** Skapar en FileChooser, men plockar bort lite knappar som inte behövs */
+/**Skapar en FileChooser, men plockar bort lite knappar som inte behövs */
 class LimitedFileChooser extends swing.Component with Publisher {
   lazy val fileChooser: FileChooser = new FileChooser {
     controlButtonsAreShown = false

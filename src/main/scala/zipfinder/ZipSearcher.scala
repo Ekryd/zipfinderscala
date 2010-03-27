@@ -6,7 +6,7 @@ import java.util.zip._
 
 import zipfinder.logger.StatusLogger
 
-/** Söker efter ett namn i en jarfil */
+/**Söker efter ett namn i en jarfil */
 class ZipSearcher(str: String) {
   private val pattern = Pattern.compile("\\S*" + str.trim.replaceAll("\\W", ".") + "\\S*")
   private var statusLogger: StatusLogger = _
