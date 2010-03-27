@@ -2,22 +2,14 @@
 <project version="4">
   <component name="ChangeListManager" verified="true">
     <list default="true" readonly="true" id="506cfb0d-db35-4ad9-b64d-16732053dc5d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipFileEntries.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipFileEntries.scala" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingControllerActor.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/SwingControllerActor.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/Main.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/Main.scala" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/FileFinderActor.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/FileFinderActor.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/logger/StandardStatusLogger.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/logger/StandardStatusLogger.scala" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingControllerActorAll.scala" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zipfinderscala.iws" afterPath="$PROJECT_DIR$/zipfinderscala.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zipfinderscala.ipr" afterPath="$PROJECT_DIR$/zipfinderscala.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/logger/StatusLogger.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/logger/StatusLogger.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/zipfinder/ZipSearcherTest.java" afterPath="$PROJECT_DIR$/src/test/java/zipfinder/ZipSearcherTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcherActor.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/SwingControllerActor.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/SwingControllerActor.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/FileFinderActor.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/FileFinderActor.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ActorMessages.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ApplicationActor.scala" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/FileFinder.scala" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/FoundFilesQueue.scala" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/FileFinder.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/FileFinder.scala" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcherRunner.scala" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zipfinderscala.iws" afterPath="$PROJECT_DIR$/zipfinderscala.iws" />
     </list>
     <ignored path="zipfinderscala.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,7 +72,7 @@
       <file leaf-file-name="SwingGui.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0">
+            <state line="4" column="0" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,7 +81,7 @@
       <file leaf-file-name="ZipSearcherActor.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="79" selection-start="922" selection-end="922" vertical-scroll-proportion="0.8726415">
+            <state line="37" column="22" selection-start="865" selection-end="865" vertical-scroll-proportion="0.8490566">
               <folding />
             </state>
           </provider>
@@ -107,6 +99,7 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingControllerActorAll.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala" />
       </list>
     </option>
   </component>
@@ -502,14 +495,14 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0">
+        <state line="4" column="0" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="79" selection-start="922" selection-end="922" vertical-scroll-proportion="0.8726415">
+        <state line="37" column="22" selection-start="865" selection-end="865" vertical-scroll-proportion="0.8490566">
           <folding />
         </state>
       </provider>

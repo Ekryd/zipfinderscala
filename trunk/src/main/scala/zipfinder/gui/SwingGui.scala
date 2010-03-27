@@ -12,6 +12,7 @@ import swing._
 import swing.event._
 import GridBagPanel._
 
+/** GUI */
 class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[String], searchButtonListener: SearchButtonListener) {
   // Specalare för att det inte finns någon standard för PropertyChangeListener i Scala
   def PropertyChangeListener(f: PropertyChangeEvent => Unit) = new PropertyChangeListener {
@@ -123,7 +124,7 @@ class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[Stri
         0, 1, 2, 1, 0.0, 0.0, Anchor.CENTER.id, Fill.Both.id, insets, 0, 0)
     }
     val frame = new Frame {
-      title = "ZipFinderScala2"
+      title = "ZipFinderScala"
       val splitPanel = new SplitPane(Orientation.Horizontal, upperPanel, lowerPanel) {resizeWeight = 1.0}
       contents = splitPanel
       peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -3,6 +3,7 @@ package zipfinder
 import zipfinder.logger.StandardStatusLogger
 import zipfinder.logger.StatusLogger
 
+/** Kontroller som sak användas då inte GUI finns */
 class HeadLessController(directory: String, stringToFind: String) {
   private var statusLogger: StatusLogger = _
   //  private val foundFilesQueue = new FoundFilesQueue
