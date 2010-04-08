@@ -46,15 +46,17 @@ class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[Stri
   }
 
   private def addToConsole(function: () => String) {
-    while (console.lineCount > MAX_LINES) {
-      try {
-        val offset = console.peer.getLineEndOffset(0)
-        console.peer.getDocument.remove(0, offset)
-      } catch {
-        case e: BadLocationException => e.printStackTrace
-      }
+    invokeLater {
+	    while (console.lineCount > MAX_LINES) {
+	      try {
+	        val offset = console.peer.getLineEndOffset(0)
+	        console.peer.getDocument.remove(0, offset)
+	      } catch {
+	        case e: BadLocationException => e.printStackTrace
+	      }
+	    }
+	    console.append(function())
     }
-    console.append(function())
   }
 
   def addToConsole(nrOfFiles: Int) {
