@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager" verified="true">
-    <list default="true" readonly="true" id="506cfb0d-db35-4ad9-b64d-16732053dc5d" name="Default" comment="" />
-    <ignored path="zipfinderscala.iws" />
+    <list default="true" readonly="true" id="506cfb0d-db35-4ad9-b64d-16732053dc5d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/RecentStringsTextField.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/RecentStringsTextField.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipFinderPreferences.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipFinderPreferences.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala" afterPath="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zipfinderscala.iws" afterPath="$PROJECT_DIR$/zipfinderscala.iws" />
+    </list>
     <ignored path=".idea/workspace.xml" />
+    <ignored path="zipfinderscala.iws" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,10 +75,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ZipSearcherActor.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ZipSearcherActor.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="17" selection-start="944" selection-end="944" vertical-scroll-proportion="0.8490566">
+            <state line="6" column="45" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ZipSearcher.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="87" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.8031496">
               <folding />
             </state>
           </provider>
@@ -91,6 +106,7 @@
         <option value="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingControllerActorAll.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala" />
       </list>
     </option>
   </component>
@@ -133,6 +149,8 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Favorites" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -271,8 +289,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -428,7 +444,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="7" y="0" width="1900" height="1146" extended-state="0" />
+    <frame x="7" y="0" width="1900" height="1144" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -436,12 +452,12 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3296593" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959305" sideWeight="0.336" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959305" sideWeight="0.44689378" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959305" sideWeight="0.32" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959305" sideWeight="0.20941883" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -486,14 +502,19 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/gui/SwingGui.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="5" column="0" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/actor/ZipSearcherActor.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="17" selection-start="944" selection-end="944" vertical-scroll-proportion="0.8490566">
+        <state line="6" column="45" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/zipfinder/ZipSearcher.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="87" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.8031496">
           <folding />
         </state>
       </provider>

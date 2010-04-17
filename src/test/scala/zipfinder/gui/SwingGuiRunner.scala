@@ -20,7 +20,7 @@ object SwingGuiRunner extends SimpleGUIApplication {
       peer.getLayout.asInstanceOf[GridBagLayout].rowHeights = Array(INSET, INSET)
       peer.getLayout.asInstanceOf[GridBagLayout].columnWeights = Array(1, 0)
       peer.getLayout.asInstanceOf[GridBagLayout].rowWeights = Array(0, 1)
-      val directoryComboBox = new ComboBox(Array("aaa", "bbb"))
+      val directoryComboBox = new ComboBox(Array[String]())
       //          TODO directoryComboBox.makeEditable()
       layout(directoryComboBox) = new Constraints(new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER,
         GridBagConstraints.HORIZONTAL, insets, 0, 0))
@@ -36,7 +36,7 @@ object SwingGuiRunner extends SimpleGUIApplication {
       peer.getLayout.asInstanceOf[GridBagLayout].rowHeights = Array(INSET, INSET)
       peer.getLayout.asInstanceOf[GridBagLayout].columnWeights = Array(1, 0)
       peer.getLayout.asInstanceOf[GridBagLayout].rowWeights = Array(0, 1)
-      val textToFindField = new RecentStringsTextField(Array("aaa", "bbb")) {text = ""}
+      val textToFindField = new RecentStringsTextField(List()) {text = ""}
       layout(textToFindField) = new Constraints(
         0, 0, 1, 1, 0.0, 0.0, Anchor.CENTER.id, Fill.Horizontal.id, insets, 0, 0);
       val searchButton = new Button(SEARCH_LABEL)
