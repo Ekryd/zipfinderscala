@@ -5,7 +5,6 @@ import java.util.zip.*;
 
 import scala.List;
 
-import java.util.*;
 
 import junit.framework.TestCase;
 import cheesymock.*;
