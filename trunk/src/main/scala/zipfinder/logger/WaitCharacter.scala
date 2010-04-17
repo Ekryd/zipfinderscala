@@ -1,9 +1,11 @@
 package zipfinder.logger
 
-sealed abstract class WaitCharacter(ch:Char) {
+sealed abstract class WaitCharacter(ch: Char) {
   val printString = ch + "\b"
+
   def print = System.out.print(printString)
-  def next:WaitCharacter
+
+  def next: WaitCharacter
 }
 
 case object Wait1 extends WaitCharacter('/') {
