@@ -33,6 +33,11 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/scala-lang/scala-swing/2.7.5/scala-swing-2.7.5.jar" sourcepath="M2_REPO/org/scala-lang/scala-swing/2.7.5/scala-swing-2.7.5-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/scalatest/scalatest/1.0/scalatest-1.0.jar" sourcepath="M2_REPO/org/scalatest/scalatest/1.0/scalatest-1.0-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/bjorn/.m2/repository/org/scalatest/scalatest/1.0/scalatest-1.0-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 </classpath>

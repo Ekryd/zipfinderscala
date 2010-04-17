@@ -38,6 +38,11 @@
       <artifactId>scala-swing</artifactId>
       <version>${scala.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.scalatest</groupId>
+      <artifactId>scalatest</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -329,6 +334,10 @@
     <url>http://code.google.com/p/zipfinderscala/source/browse/</url>
   </scm>
   <repositories>
+    <repository>
+      <id>scalatest</id>
+      <url>http://scala-tools.org/repo-releases/</url>
+    </repository>
     <repository>
       <id>googlecode.mindi-f</id>
       <url>http://mindi-f.googlecode.com/svn/repo</url>

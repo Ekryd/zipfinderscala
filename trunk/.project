@@ -1,6 +1,6 @@
 <projectDescription>
   <name>zipfinderscala</name>
-  <comment>Finds which zip- or jarfiles that contain a specific class. Implemented in Scala.</comment>
+  <comment>Finds which zip- or jarfiles that contain a specific class. Implemented in Scala. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
   <projects/>
   <buildSpec>
     <buildCommand>

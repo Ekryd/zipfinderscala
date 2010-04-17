@@ -2,49 +2,18 @@ package zipfinder
 
 import zipfinder.logger.StandardStatusLogger
 import zipfinder.logger.StatusLogger
+import zipfinder.actor._
+import java.io.File
 
-/**Kontroller som sak användas då inte GUI finns */
+/**Kontroller som används då inte GUI finns */
 class HeadLessController(directory: String, stringToFind: String) {
-  private var statusLogger: StatusLogger = _
-  //  private val foundFilesQueue = new FoundFilesQueue
+  private val statusLogger: StatusLogger = StandardStatusLogger
 
   def start {
-    //    setStatusLogger(StandardStatusLogger)
-    findClassesInArchives
-  }
-
-  private def createFileFinderThread = {
-    //    val zipSearcherActor = new ZipSearcherActor(stringToFind, statusLogger)
-    //    val fileFinder = new FileFinder(directory, statusLogger, zipSearcherActor)
-    //    new Thread(fileFinder)
-  }
-
-  //	private def createZipSearcherThread = {
-  //		val zipSearcherRunner = new ZipSearcherRunner(foundFilesQueue, stringToFind)
-  //		zipSearcherRunner.setStatusLogger(statusLogger)
-  //		new Thread(zipSearcherRunner)
-  //	}
-
-  private def findClassesInArchives {
-
-    val fileFinderThread = createFileFinderThread
-    //		val zipSearcherThread = createZipSearcherThread
-    //    fileFinderThread.start
-    //    //		zipSearcherThread.start
-    //    try {
-    //      fileFinderThread.join
-    //    } catch {
-    //      case e: InterruptedException => statusLogger.logError(e.getMessage)
-    //    }
-    //		try {
-    //			zipSearcherThread.join
-    //		} catch {
-    //		  case e:InterruptedException => statusLogger.logError(e.getMessage)
-    //		}
-    null
-  }
-
-  private def setStatusLogger(statusLogger: StatusLogger) {
-    this.statusLogger = statusLogger
+          ZipFinderPreferences.addDirectory(directory)
+          ZipFinderPreferences.addStringToFind(stringToFind)
+          var zipSearcher = new ZipSearcherActor(statusLogger, stringToFind) {start}
+          var fileFinder = new FileFinderActor(statusLogger, zipSearcher) {start}
+          fileFinder ! Search(new File(directory))
   }
 }
