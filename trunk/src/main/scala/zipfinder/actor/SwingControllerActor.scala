@@ -20,7 +20,7 @@ class SwingControllerActor extends ApplicationActor with StatusLogger with Searc
   def getSwingGui = {
     var recentDirectories = ZipFinderPreferences.getRecentDirectories
     if (recentDirectories.size == 0) {
-      recentDirectories = Array("/tmp2")
+      recentDirectories = List("/")
     }
 
     val recentStringsToFind = ZipFinderPreferences getRecentStringsToFind

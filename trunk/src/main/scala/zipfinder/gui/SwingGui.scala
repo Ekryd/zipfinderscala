@@ -13,7 +13,7 @@ import swing.event._
 import GridBagPanel._
 
 /**GUI */
-class SwingGui(recentDirectories: Array[String], recentStringsToFind: Array[String], searchButtonListener: SearchButtonListener) {
+class SwingGui(recentDirectories: List[String], recentStringsToFind: List[String], searchButtonListener: SearchButtonListener) {
   // Specalare för att det inte finns någon standard för PropertyChangeListener i Scala
   def PropertyChangeListener(f: PropertyChangeEvent => Unit) = new PropertyChangeListener {
     def propertyChange(e: PropertyChangeEvent) {f(e)}

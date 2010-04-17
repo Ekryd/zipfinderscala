@@ -1,14 +1,14 @@
 package zipfinder
 
 import java.io.IOException
-import java.util.regex.Pattern
+import scala.util.matching.Regex
 import java.util.zip._
 
 import zipfinder.logger.StatusLogger
 
 /**Söker efter ett namn i en jarfil */
 class ZipSearcher(str: String) {
-  private val pattern = Pattern.compile("\\S*" + str.trim.replaceAll("\\W", ".") + "\\S*")
+  private val pattern = ("\\S*" + str.trim.replaceAll("\\W", ".") + "\\S*").r
   private var statusLogger: StatusLogger = _
 
   def findEntries(entries: ZipFileEntries): List[String] = {
@@ -32,7 +32,7 @@ class ZipSearcher(str: String) {
   }
 
 
-  private def isFileMatch(fileName: String) = pattern.matcher(fileName).matches
+  private def isFileMatch(fileName: String) = pattern.pattern.matcher(fileName).matches
 
   def setStatusLogger(statusLogger: StatusLogger) {
     this.statusLogger = statusLogger

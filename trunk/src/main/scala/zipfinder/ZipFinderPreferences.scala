@@ -47,18 +47,18 @@ object ZipFinderPreferences {
 
   def getRecentStringsToFind = getValueArray(STRINGS_TO_FIND_KEY)
 
-  private def createNewString(newArray: Array[String]) = {
+  private def createNewString(newArray: List[String]) = {
     newArray mkString SEPARATOR
   }
 
-  private def createNewStringArray(str: String, oldCollection: Array[String]): Array[String] = {
+  private def createNewStringArray(str: String, oldCollection: List[String]): List[String] = {
     val list = (List(str) /: oldCollection) {(list, elem) => if (elem == str) list else elem :: list}
-    list.reverse.take(NR_OF_ENTRIES).toArray
+    list.reverse.take(NR_OF_ENTRIES)
   }
 
-  private def getValueArray(key: String): Array[String] = {
+  private def getValueArray(key: String): List[String] = {
     val value = preferences.get(key, "")
-    if (isEmptyString(value)) Array() else value.split(SEPARATOR_REGEX)
+    if (isEmptyString(value)) List() else List.fromArray(value.split(SEPARATOR_REGEX))
   }
 
   private def isEmptyString(str: String) = str == null || str.isEmpty
