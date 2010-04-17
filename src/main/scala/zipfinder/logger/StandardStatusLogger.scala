@@ -4,23 +4,29 @@ import java.io.File
 
 /**Logger som skriver till standard out */
 object StandardStatusLogger extends StatusLogger {
+  var waitCharacter:WaitCharacter = Wait1
+
   def logError(msg: String) {
     System.err println (msg)
   }
 
   def logEndSearch(nrOfFiles: Int) {
-    System.out println ("Found " + nrOfFiles + " compressed files")
+    println ("Found " + nrOfFiles + " compressed files")
   }
 
-  def logFoundZipFile {}
+  def logFoundZipFile {
+    waitCharacter.print
+    waitCharacter = waitCharacter.next
+  }
 
   def logFoundFile(file: File, classNames: List[String]) {
     val text = new StringBuilder
     text.append(file.getAbsolutePath).append('\n')
+
     for (name <- classNames) {
       text.append("  ").append(name).append('\n')
     }
-    System.out println (text.toString)
+    println (text.toString)
   }
 
 }

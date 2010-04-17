@@ -32,6 +32,7 @@ class FileFinderActor(statusLogger: StatusLogger, zipSearcherActor: ZipSearcherA
         }
         case Done => {
           zipSearcherActor ! Done
+          exit
         }
         case msg => {println("WTF!" + msg)}
       }
