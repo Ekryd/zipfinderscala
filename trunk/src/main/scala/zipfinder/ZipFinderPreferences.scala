@@ -2,6 +2,7 @@ package zipfinder
 
 import java.util.prefs.BackingStoreException
 import java.util.prefs.Preferences
+import zipfinder.Preamble._
 
 /**Sparar av tidigare sökningar och kataloger */
 object ZipFinderPreferences {
@@ -16,9 +17,9 @@ object ZipFinderPreferences {
     if (isEmptyString(str)) {
       return
     }
-    val oldArray = getRecentDirectories
-    val newArray = createNewStringArray(str, oldArray)
-    val newString = createNewString(newArray)
+    val oldList = getRecentDirectories
+    val newList = createNewStringList(str, oldList)
+    val newString = createNewString(newList)
     preferences.put(DIRECTORIES_KEY, newString)
     try {
       preferences.sync
@@ -32,9 +33,9 @@ object ZipFinderPreferences {
     if (isEmptyString(str)) {
       return
     }
-    val oldArray = getRecentStringsToFind
-    val newArray = createNewStringArray(str, oldArray)
-    val newString = createNewString(newArray)
+    val oldList = getRecentStringsToFind
+    val newList = createNewStringList(str, oldList)
+    val newString = createNewString(newList)
     preferences.put(STRINGS_TO_FIND_KEY, newString)
     try {
       preferences.sync
@@ -43,22 +44,22 @@ object ZipFinderPreferences {
     }
   }
 
-  def getRecentDirectories = getValueArray(DIRECTORIES_KEY)
+  def getRecentDirectories = getValueList(DIRECTORIES_KEY)
 
-  def getRecentStringsToFind = getValueArray(STRINGS_TO_FIND_KEY)
+  def getRecentStringsToFind = getValueList(STRINGS_TO_FIND_KEY)
 
-  private def createNewString(newArray: List[String]) = {
-    newArray mkString SEPARATOR
+  private def createNewString(newList: List[String]) = {
+    newList mkString SEPARATOR
   }
 
-  private def createNewStringArray(str: String, oldCollection: List[String]): List[String] = {
+  private def createNewStringList(str: String, oldCollection: List[String]): List[String] = {
     val list = (List(str) /: oldCollection) {(list, elem) => if (elem == str) list else elem :: list}
     list.reverse.take(NR_OF_ENTRIES)
   }
 
-  private def getValueArray(key: String): List[String] = {
+  private def getValueList(key: String): List[String] = {
     val value = preferences.get(key, "")
-    if (isEmptyString(value)) List() else List.fromArray(value.split(SEPARATOR_REGEX))
+    if (isEmptyString(value)) List() else value.split(SEPARATOR_REGEX)
   }
 
   private def isEmptyString(str: String) = str == null || str.isEmpty

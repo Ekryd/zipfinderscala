@@ -11,6 +11,7 @@ import swing._
 import javax.swing.JPanel
 import FileChooser._
 import java.io._
+import zipfinder.Preamble._
 
 /**Skapar en FileChooser, men plockar bort lite knappar som inte behövs */
 class LimitedFileChooser extends swing.Component with Publisher {
@@ -36,7 +37,7 @@ class LimitedFileChooser extends swing.Component with Publisher {
   // Matchar en container
   object AContainer {
     def unapply(comp: Component) = comp match {
-      case cont: Container => Some(cont, List.fromArray(cont.getComponents))
+      case cont: Container => Some(cont, cont.getComponents)
       case _ => None
     }
   }
@@ -59,8 +60,8 @@ class LimitedFileChooser extends swing.Component with Publisher {
     }
   }
 
-  private def removeExcessButtons(parent: Container, components: Array[Component]) {
-    val buttons = getAllButtons(parent, List.fromArray(components))
+  private def removeExcessButtons(parent: Container, components: List[Component]) {
+    val buttons = getAllButtons(parent, components)
     (true /: buttons)((first, pair) => {
       if (!first) {
         pair._2 remove pair._1
@@ -69,7 +70,7 @@ class LimitedFileChooser extends swing.Component with Publisher {
     })
   }
 
-  private def removeExcessFields(parent: Container, components: Array[Component]) {
+  private def removeExcessFields(parent: Container, components: List[Component]) {
     val component = components(components.length - 1)
     if (component.isInstanceOf[JPanel]) {
       parent remove component
