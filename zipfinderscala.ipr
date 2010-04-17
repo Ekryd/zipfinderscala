@@ -284,6 +284,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-swing/2.7.5/scala-swing-2.7.5-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.scalatest:scalatest:1.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.0/scalatest-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.0/scalatest-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.0/scalatest-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
   </component>
 </project>
 

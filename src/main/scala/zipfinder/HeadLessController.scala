@@ -10,10 +10,10 @@ class HeadLessController(directory: String, stringToFind: String) {
   private val statusLogger: StatusLogger = StandardStatusLogger
 
   def start {
-          ZipFinderPreferences.addDirectory(directory)
-          ZipFinderPreferences.addStringToFind(stringToFind)
-          var zipSearcher = new ZipSearcherActor(statusLogger, stringToFind) {start}
-          var fileFinder = new FileFinderActor(statusLogger, zipSearcher) {start}
-          fileFinder ! Search(new File(directory))
+    ZipFinderPreferences.addDirectory(directory)
+    ZipFinderPreferences.addStringToFind(stringToFind)
+    var zipSearcher = new ZipSearcherActor(statusLogger, stringToFind) {start}
+    var fileFinder = new FileFinderActor(statusLogger, zipSearcher) {start}
+    fileFinder ! Search(new File(directory))
   }
 }
