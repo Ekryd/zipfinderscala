@@ -3,7 +3,7 @@ package zipfinder;
 import java.io.IOException;
 import java.util.zip.*;
 
-import scala.List;
+import scala.*;
 
 
 import junit.framework.TestCase;
@@ -19,8 +19,10 @@ public class ZipSearcherTest extends TestCase {
         entries = Cheesy.mock(ZipFileEntries.class, new Object() {
             @SuppressWarnings("unused")
             public List<ZipEntry> getEntries() {
-            	// TODO: Bah!!!
-                return null;
+            	List$ factory = new List$();
+            	List<ZipEntry> list = factory.make(1, new ZipEntry("java/lang/String.class"));
+            	//list = list.$colon$colon(new ZipEntry("java/lang/String.class"));
+            	return list;
             }
         });
         recorder = new Recorder();
