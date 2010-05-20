@@ -60,11 +60,11 @@ class SwingGui(recentDirectories: List[String], recentStringsToFind: List[String
   }
 
   def addToConsole(nrOfFiles: Int) {
-    addToConsole(() => "Found " + nrOfFiles + " compressed files")
+    addToConsole(() => "Found " + nrOfFiles + " compressed files\n")
   }
 
   def addToConsole(msg: String) {
-    addToConsole(() => msg)
+    addToConsole(() => msg + '\n')
   }
 
   def addToConsole(zipFile: File, names: List[String]) {

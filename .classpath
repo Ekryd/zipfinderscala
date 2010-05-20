@@ -11,11 +11,7 @@
       <attribute value="jar:file:/home/bjorn/.m2/repository/cglib/cglib/2.2/cglib-2.2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT.jar" sourcepath="M2_REPO/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/bjorn/.m2/repository/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/google/code/cheesymock/cheesymock/1.1.5-SNAPSHOT/cheesymock-1.1.5-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-io/commons-io/1.4/commons-io-1.4.jar" sourcepath="M2_REPO/commons-io/commons-io/1.4/commons-io-1.4-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/bjorn/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4-javadoc.jar!/" name="javadoc_location"/>
